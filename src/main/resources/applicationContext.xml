@@ -49,6 +49,12 @@
         <property name="typeAliasesPackage" value="com.cheny.entity"/>
         <!-- 扫描sql配置文件:mapper需要的xml文件-->
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!-- 开启驼峰命名映射：user_id -> userId -->
+        <property name="configuration">
+          <bean class="org.apache.ibatis.session.Configuration">
+            <property name="mapUnderscoreToCamelCase" value="true"/>
+          </bean>
+        </property>
         <!-- 引入PageHelper插件 -->
         <property name="plugins">
           <array>

@@ -1,39 +1,82 @@
 package com.cheny.entity;
 
+import java.util.Date;
+
 public class User {
-	private Long id;
-	private String username;
+	private String userId;
+	private String userName;
+	private String password;
+	private String userImage;
+	private String userType;
+	private String mobilePhone;
+	private Integer sex;
 	private String email;
-	private String mobile;
-	private String roles;
+	private String empName;
+	private String empCode;
+	private String officePhone;
+	private Date activeDate;
+	private Date disableDate;
+	private String userDesc;
+	private Integer enabled;
 
 	public User() {
 		super();
 	}
 
-	public User(Long id, String username, String email, String mobile, String roles) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.mobile = mobile;
-		this.roles = roles;
+	public String getUserId() {
+		return userId;
 	}
 
-	public Long getId() {
-		return id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public String getUserName() {
+		return userName;
 	}
 
-	public String getUsername() {
-		return username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUserImage() {
+		return userImage;
+	}
+
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
 	}
 
 	public String getEmail() {
@@ -44,31 +87,71 @@ public class User {
 		this.email = email;
 	}
 
-	public String getMobile() {
-		return mobile;
+	public String getEmpName() {
+		return empName;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public void setEmpName(String empName) {
+		this.empName = empName;
 	}
 
-	public String getRoles() {
-		return roles;
+	public String getEmpCode() {
+		return empCode;
 	}
 
-	public void setRoles(String roles) {
-		this.roles = roles;
+	public void setEmpCode(String empCode) {
+		this.empCode = empCode;
+	}
+
+	public String getOfficePhone() {
+		return officePhone;
+	}
+
+	public void setOfficePhone(String officePhone) {
+		this.officePhone = officePhone;
+	}
+
+	public Date getActiveDate() {
+		return activeDate;
+	}
+
+	public void setActiveDate(Date activeDate) {
+		this.activeDate = activeDate;
+	}
+
+	public Date getDisableDate() {
+		return disableDate;
+	}
+
+	public void setDisableDate(Date disableDate) {
+		this.disableDate = disableDate;
+	}
+
+	public String getUserDesc() {
+		return userDesc;
+	}
+
+	public void setUserDesc(String userDesc) {
+		this.userDesc = userDesc;
+	}
+
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
-		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((mobilePhone == null) ? 0 : mobilePhone.hashCode());
+		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
 		return result;
 	}
 
@@ -81,37 +164,40 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (mobilePhone == null) {
+			if (other.mobilePhone != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!mobilePhone.equals(other.mobilePhone))
 			return false;
-		if (mobile == null) {
-			if (other.mobile != null)
+		if (userType == null) {
+			if (other.userType != null)
 				return false;
-		} else if (!mobile.equals(other.mobile))
-			return false;
-		if (roles == null) {
-			if (other.roles != null)
-				return false;
-		} else if (!roles.equals(other.roles))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
+		} else if (!userType.equals(other.userType))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", mobile=" + mobile + ", roles="
-				+ roles + "]";
+		return "User [userId=" + userId + ", userName=" + userName + ", userImage=" + userImage
+				+ ", userType=" + userType + ", mobilePhone=" + mobilePhone + ", sex=" + sex
+				+ ", email=" + email + ", empName=" + empName + ", empCode=" + empCode
+				+ ", officePhone=" + officePhone + ", activeDate=" + activeDate
+				+ ", disableDate=" + disableDate + ", userDesc=" + userDesc + ", enabled=" + enabled + "]";
 	}
 }

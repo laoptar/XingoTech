@@ -1,25 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 设置为IUserDao接口方法提供sql语句配置 -->
 <mapper namespace="com.cheny.dao.UserDao">
-  <select id="selectUser" resultType="User" parameterType="long">
-    SELECT id, username, email, roles, mobile FROM user WHERE id = #{id}
+
+  <sql id="Base_Column_List">
+    user_id, user_name, password, user_image, user_type, mobile_phone,
+    sex, email, emp_name, emp_code, office_phone,
+    active_date, disable_date, user_desc, enabled
+  </sql>
+
+  <select id="selectUser" resultType="User" parameterType="string">
+    SELECT <include refid="Base_Column_List" /> FROM user WHERE user_id = #{userId}
   </select>
-  
+
   <select id="selectUserByPage" resultType="User">
-    SELECT id, username, email, roles, mobile FROM user ORDER BY id DESC
+    SELECT <include refid="Base_Column_List" /> FROM user ORDER BY enabled DESC, active_date DESC, disable_date DESC
   </select>
-  
-  <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="User">
-    INSERT INTO user(id, username, email, roles, mobile) VALUES (#{id}, #{username}, #{email}, #{roles}, #{mobile})
+
+  <select id="selectUserByUserName" resultType="User" parameterType="string">
+    SELECT <include refid="Base_Column_List" /> FROM user WHERE user_name = #{userName}
+  </select>
+
+  <insert id="insertUser" parameterType="User">
+    INSERT INTO user(user_id, user_name, password, user_image, user_type, mobile_phone,
+      sex, email, emp_name, emp_code, office_phone, active_date, disable_date, user_desc, enabled)
+    VALUES (#{userId}, #{userName}, #{password}, #{userImage}, #{userType}, #{mobilePhone},
+      #{sex}, #{email}, #{empName}, #{empCode}, #{officePhone}, #{activeDate}, #{disableDate}, #{userDesc}, #{enabled})
   </insert>
-  
-  <update id="updateUser" keyProperty="id" parameterType="User">
-    UPDATE user SET username = #{username}, email = #{email}, roles = #{roles}, mobile = #{mobile} WHERE id = #{id}
+
+  <update id="updateUser" parameterType="User">
+    UPDATE user
+    SET user_name = #{userName},
+        password = #{password},
+        user_image = #{userImage},
+        user_type = #{userType},
+        mobile_phone = #{mobilePhone},
+        sex = #{sex},
+        email = #{email},
+        emp_name = #{empName},
+        emp_code = #{empCode},
+        office_phone = #{officePhone},
+        active_date = #{activeDate},
+        disable_date = #{disableDate},
+        user_desc = #{userDesc},
+        enabled = #{enabled}
+    WHERE user_id = #{userId}
   </update>
 
-  <delete id="deleteUserById" flushCache="true" parameterType="long">
-    DELETE FROM user WHERE id = #{id}
-  </delete>
+  <update id="updateEnabled">
+    UPDATE user SET enabled = #{enabled} WHERE user_id = #{userId}
+  </update>
+
 </mapper>

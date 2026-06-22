@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheny.dao.UserTokenDao">
+  <resultMap id="BaseResultMap" type="UserToken">
+    <id column="id" property="id"/>
+    <result column="user_id" property="userId"/>
+    <result column="token" property="token"/>
+    <result column="platform" property="platform"/>
+    <result column="login_time" property="loginTime"/>
+    <result column="expire_time" property="expireTime"/>
+    <result column="status" property="status"/>
+  </resultMap>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="long">
+    SELECT id, user_id, token, platform, login_time, expire_time, status
+    FROM user_token WHERE id = #{id}
+  </select>
+
+  <select id="selectByToken" resultMap="BaseResultMap" parameterType="string">
+    SELECT id, user_id, token, platform, login_time, expire_time, status
+    FROM user_token WHERE token = #{token}
+  </select>
+
+  <select id="selectActiveByUserId" resultMap="BaseResultMap" parameterType="string">
+    SELECT id, user_id, token, platform, login_time, expire_time, status
+    FROM user_token WHERE user_id = #{userId} AND status = 1
+    ORDER BY login_time DESC
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="UserToken">
+    INSERT INTO user_token(user_id, token, platform, login_time, expire_time, status)
+    VALUES (#{userId}, #{token}, #{platform}, #{loginTime}, #{expireTime}, #{status})
+  </insert>
+
+  <update id="updateStatus" parameterType="UserToken">
+    UPDATE user_token SET status = #{status} WHERE id = #{id}
+  </update>
+
+  <update id="deactivateByUserId" parameterType="string">
+    UPDATE user_token SET status = 0 WHERE user_id = #{userId} AND status = 1
+  </update>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheny.dao.DivisionDao">
+
+  <sql id="Base_Column_List">
+    id, code, name, parent_code, level, enabled, created_time, updated_time
+  </sql>
+
+  <select id="selectById" resultType="Division" parameterType="string">
+    SELECT <include refid="Base_Column_List" /> FROM administrative_division WHERE id = #{id}
+  </select>
+
+  <select id="selectByCode" resultType="Division" parameterType="string">
+    SELECT <include refid="Base_Column_List" /> FROM administrative_division WHERE code = #{code}
+  </select>
+
+  <select id="selectList" resultType="Division">
+    SELECT <include refid="Base_Column_List" /> FROM administrative_division
+    <where>
+      <if test="parentCode != null">
+        parent_code = #{parentCode}
+      </if>
+      <if test="level != null">
+        AND level = #{level}
+      </if>
+    </where>
+    ORDER BY code ASC
+  </select>
+
+  <select id="selectAll" resultType="Division">
+    SELECT <include refid="Base_Column_List" /> FROM administrative_division ORDER BY code ASC
+  </select>
+
+  <insert id="insert" parameterType="Division">
+    INSERT INTO administrative_division(id, code, name, parent_code, level, enabled)
+    VALUES (#{id}, #{code}, #{name}, #{parentCode}, #{level}, #{enabled})
+  </insert>
+
+  <update id="update" parameterType="Division">
+    UPDATE administrative_division
+    SET code = #{code},
+        name = #{name},
+        parent_code = #{parentCode},
+        level = #{level}
+    WHERE id = #{id}
+  </update>
+
+  <update id="updateEnabled">
+    UPDATE administrative_division SET enabled = #{enabled} WHERE id = #{id}
+  </update>
+
+  <insert id="upsertByCode" parameterType="Division">
+    INSERT INTO administrative_division(id, code, name, parent_code, level, enabled)
+    VALUES (#{id}, #{code}, #{name}, #{parentCode}, #{level}, #{enabled})
+    ON DUPLICATE KEY UPDATE
+      name = VALUES(name),
+      parent_code = VALUES(parent_code),
+      level = VALUES(level),
+      enabled = VALUES(enabled)
+  </insert>
+
+</mapper>
