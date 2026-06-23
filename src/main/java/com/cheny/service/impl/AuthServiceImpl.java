@@ -65,8 +65,9 @@ public class AuthServiceImpl implements AuthService {
 		// 5. 返回成功（不返回 password）
 		user.setPassword(null);
 		return Msg.success()
+				.setData(user)
+				.setService("auth")
 				.add("token", token)
-				.add("user", user)
 				.add("platform", platformName);
 	}
 

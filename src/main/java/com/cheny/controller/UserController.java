@@ -46,35 +46,39 @@ public class UserController {
 		PageHelper.startPage(pageindex, pagesize);
 		List<User> userList = userService.findUserByPage();
 		PageInfo<User> pageInfo = new PageInfo<User>(userList, pagesize);
-		return Msg.success().add("pageInfo", pageInfo);
+		return Msg.success()
+				.setRows(userList)
+				.setPageIndex(pageInfo.getPageNum())
+				.setPageSize(pageInfo.getPageSize())
+				.setTotal(pageInfo.getTotal());
 	}
 
 	@RequestMapping(value = {"/addUser"}, method = {RequestMethod.POST})
 	@ResponseBody
 	public Msg addedUser(@RequestBody User user) throws Exception {
 		int rows = userService.addedUser(user);
-		return Msg.success().add("rows", rows);
+		return Msg.success().add("affected", rows);
 	}
 
 	@RequestMapping(value = {"/editUser"}, method = {RequestMethod.POST})
 	@ResponseBody
 	public Msg editorUser(@RequestBody User user) throws Exception {
 		int rows = userService.modifyUser(user);
-		return Msg.success().add("rows", rows);
+		return Msg.success().add("affected", rows);
 	}
 
 	@RequestMapping(value = {"/enable/{userId}"}, method = {RequestMethod.POST})
 	@ResponseBody
 	public Msg enableUser(@PathVariable("userId") String userId) throws Exception {
 		int rows = userService.enableUser(userId);
-		return Msg.success().add("rows", rows);
+		return Msg.success().add("affected", rows);
 	}
 
 	@RequestMapping(value = {"/disable/{userId}"}, method = {RequestMethod.POST})
 	@ResponseBody
 	public Msg disableUser(@PathVariable("userId") String userId) throws Exception {
 		int rows = userService.disableUser(userId);
-		return Msg.success().add("rows", rows);
+		return Msg.success().add("affected", rows);
 	}
 
 	@RequestMapping(value = {"/export"}, method = {RequestMethod.GET})
@@ -88,11 +92,10 @@ public class UserController {
 			// BOM for Excel compatibility
 			writer.write('﻿');
 			// header
-			writer.write("用户主键,用户名,用户类型,手机号,性别,邮箱,员工姓名,员工编号,办公电话,生效日期,失效日期,是否启用,描述\n");
+			writer.write("用户名,用户类型,手机号,性别,邮箱,员工姓名,员工编号,办公电话,生效日期,失效日期,是否启用,描述\n");
 			// rows
 			for (User u : userList) {
 				writer.write(String.join(",",
-						nullToEmpty(u.getUserId()),
 						nullToEmpty(u.getUserName()),
 						nullToEmpty(u.getUserType()),
 						nullToEmpty(u.getMobilePhone()),

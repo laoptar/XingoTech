@@ -37,49 +37,53 @@ public class DivisionController {
         PageHelper.startPage(pageindex, pagesize);
         List<Division> list = divisionService.findDivisionByPage(parentCode, level);
         PageInfo<Division> pageInfo = new PageInfo<Division>(list, pagesize);
-        return Msg.success().add("pageInfo", pageInfo);
+        return Msg.success()
+                .setRows(list)
+                .setPageIndex(pageInfo.getPageNum())
+                .setPageSize(pageInfo.getPageSize())
+                .setTotal(pageInfo.getTotal());
     }
 
     @RequestMapping(value = {"/select/{id}"}, method = {RequestMethod.GET})
     @ResponseBody
     public Msg selectDivision(@PathVariable("id") String id) throws Exception {
         Division division = divisionService.selectDivision(id);
-        return Msg.success().add("division", division);
+        return Msg.success().setData(division).setService("division");
     }
 
     @RequestMapping(value = {"/addDivision"}, method = {RequestMethod.POST})
     @ResponseBody
     public Msg addDivision(@RequestBody Division division) throws Exception {
         int rows = divisionService.addDivision(division);
-        return Msg.success().add("rows", rows);
+        return Msg.success().add("affected", rows);
     }
 
     @RequestMapping(value = {"/editDivision"}, method = {RequestMethod.POST})
     @ResponseBody
     public Msg editDivision(@RequestBody Division division) throws Exception {
         int rows = divisionService.modifyDivision(division);
-        return Msg.success().add("rows", rows);
+        return Msg.success().add("affected", rows);
     }
 
     @RequestMapping(value = {"/enable/{id}"}, method = {RequestMethod.POST})
     @ResponseBody
     public Msg enableDivision(@PathVariable("id") String id) throws Exception {
         int rows = divisionService.enableDivision(id);
-        return Msg.success().add("rows", rows);
+        return Msg.success().add("affected", rows);
     }
 
     @RequestMapping(value = {"/disable/{id}"}, method = {RequestMethod.POST})
     @ResponseBody
     public Msg disableDivision(@PathVariable("id") String id) throws Exception {
         int rows = divisionService.disableDivision(id);
-        return Msg.success().add("rows", rows);
+        return Msg.success().add("affected", rows);
     }
 
     @RequestMapping(value = {"/sync"}, method = {RequestMethod.POST})
     @ResponseBody
     public Msg syncDivision(@RequestBody List<Division> divisionList) throws Exception {
         int rows = divisionService.syncDivision(divisionList);
-        return Msg.success().add("rows", rows);
+        return Msg.success().add("affected", rows);
     }
 
     @RequestMapping(value = {"/export"}, method = {RequestMethod.GET})
